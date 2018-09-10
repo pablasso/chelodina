@@ -14,6 +14,4 @@ def test_simple_commands():
     # TODO: make integration tests cleaner
     simple_commands_expected = "import turtle\nturtle.forward(50.0)\nturtle.left(90.0)\nturtle.forward(100.0)\nturtle.left(-90.5)\n"
     parsed = Compiler().get_ast(simple_commands_code)
-    print(astor.to_source(parsed))
-    print(simple_commands_expected)
     assert astor.to_source(parsed) == simple_commands_expected
