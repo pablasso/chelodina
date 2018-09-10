@@ -23,8 +23,7 @@ class Parser:
 
     def p_command(self, p):
         "command : COMMAND NUMBER"
-        parameters = [ast_builder.number(p[2])]
-        p[0] = ast_builder.call(p[1], parameters)
+        p[0] = ast_builder.call(p[1], p[2])
 
     def p_error(self, p):
         if p:
