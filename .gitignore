@@ -1,0 +1,6 @@
+*.pyc
+/dist/
+/*.egg-info
+__pycache__/
+.pytest_cache/
+chelodina/parser.out
