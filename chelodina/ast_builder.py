@@ -10,7 +10,8 @@ def turtle_wrapper(current_ast):
     """
     Returns an AST wrapped with the needed imports and closing statements
     """
-    body = [_import(TURTLE_MODULE)] + current_ast
+    done = call("done")
+    body = [_import(TURTLE_MODULE)] + current_ast + [done]
     return ast.Module(body=body)
 
 

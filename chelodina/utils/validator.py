@@ -1,4 +1,4 @@
-commands = {
+motion_commands = {
     # TODO: missing motion commands [setxy, home, arc]
     "forward": True,
     "fd": True,
@@ -11,7 +11,12 @@ commands = {
     "sety": True,
     "setheading": True,
     "seth": True,
+    "home": True,
 }
+
+screen_events_commands = {"done": True}
+
+commands = {**motion_commands, **screen_events_commands}
 
 
 def validate_command(command):
