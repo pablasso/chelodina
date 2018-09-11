@@ -1,5 +1,7 @@
 import ast
 
+from chelodina.utils import validator
+
 
 TURTLE_MODULE = "turtle"
 
@@ -17,6 +19,8 @@ def _import(name):
 
 
 def call(attribute, *args):
+    validator.validate_command(attribute)
+
     def format_args():
         formatted_args = []
         for arg in args:
