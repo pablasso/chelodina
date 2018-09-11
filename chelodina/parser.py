@@ -22,8 +22,12 @@ class Parser:
             p[0] = p[1] + [p[2]]
 
     def p_command(self, p):
-        "command : COMMAND NUMBER"
-        p[0] = ast_builder.call(p[1], p[2])
+        """command : COMMAND NUMBER
+                   | COMMAND"""
+        if len(p) == 3:
+            p[0] = ast_builder.call(p[1], p[2])
+        else:
+            p[0] = ast_builder.call(p[1])
 
     def p_error(self, p):
         if p:
