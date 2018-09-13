@@ -17,6 +17,7 @@ pytest-watch = "*"
 astor = "*"
 pre-commit = "*"
 black = "*"
+pudb = "*"
 
 [requires]
 python_version = "3.7"
