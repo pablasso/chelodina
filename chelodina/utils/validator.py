@@ -1,24 +1,30 @@
-motion_commands = {
+motion_functions = {
     # TODO: missing motion commands [setxy, arc]
-    "forward": True,
-    "fd": True,
-    "back": True,
-    "bk": True,
-    "left": True,
-    "right": True,
-    "setpos": True,
-    "setx": True,
-    "sety": True,
-    "setheading": True,
-    "seth": True,
-    "home": True,
+    "forward",
+    "fd",
+    "back",
+    "bk",
+    "left",
+    "right",
+    "setpos",
+    "setx",
+    "sety",
+    "setheading",
+    "seth",
+    "home",
 }
 
-screen_commands = {"done": True, "clear": True, "clearscreen": True}
+screen_functions = {"done", "clear", "clearscreen"}
 
-commands = {**motion_commands, **screen_commands}
+std_functions = motion_functions.union(screen_functions)
 
 
-def validate_command(command):
-    if command not in commands:
-        raise Exception("command <{0}> not supported".format(command))
+def validate_statements(statements, extras=set()):
+    supported_statements = std_functions.union(extras)
+    for statement in statements:
+        if statement not in supported_statements:
+            raise Exception("Statement not supported: {0}".format(statement))
+
+
+def is_std_function(name):
+    return name in std_functions

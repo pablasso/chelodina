@@ -24,9 +24,13 @@ def test_functions():
     forward 51.0
     left 91
     end
+
+    forward 45
+    myfunction
+    right 20
     """
 
     # TODO: make integration tests import automatically generated fixtures
-    function_code_expected = "import turtle\n\n\ndef myfunction():\n    turtle.forward(51.0)\n    turtle.left(91.0)\n\n\nturtle.done()\n"
+    function_code_expected = "import turtle\n\n\ndef myfunction():\n    turtle.forward(51.0)\n    turtle.left(91.0)\n\n\nturtle.forward(45.0)\nmyfunction()\nturtle.right(20.0)\nturtle.done()\n"
     parsed = Compiler().get_ast(function_code)
     assert astor.to_source(parsed) == function_code_expected
