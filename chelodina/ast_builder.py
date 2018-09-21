@@ -19,6 +19,18 @@ def _import(name):
     return ast.Import(names=[ast.alias(name=name, asname=None)])
 
 
+def funcdef(name, body):
+    return ast.FunctionDef(
+        name=name,
+        args=ast.arguments(
+            args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]
+        ),
+        body=body,
+        decorator_list=[],
+        returns=None,
+    )
+
+
 def call(attribute, *args):
     validator.validate_command(attribute)
 

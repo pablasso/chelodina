@@ -13,21 +13,36 @@ class Parser:
         parsed = parser.parse(code)
         return ast_builder.turtle_wrapper(parsed)
 
-    def p_commands(self, p):
-        """commands : commands command
-                    | command"""
+    def p_program(self, p):
+        """program : statements"""
+        p[0] = p[1]
+
+    def p_statements(self, p):
+        """statements : statements statement
+                      | statement """
         if len(p) == 2:
             p[0] = [p[1]]
         else:
             p[0] = p[1] + [p[2]]
 
-    def p_command(self, p):
-        """command : COMMAND NUMBER
-                   | COMMAND"""
+    def p_statement(self, p):
+        """statement : expression
+                     | funcdef"""
+        p[0] = p[1]
+
+    def p_expression(self, p):
+        """expression : NAME NUMBER
+                      | NAME"""
         if len(p) == 3:
             p[0] = ast_builder.call(p[1], p[2])
         else:
             p[0] = ast_builder.call(p[1])
+
+    def p_funcdef(self, p):
+        """funcdef : TO NAME statements END"""
+        name = p[2]
+        body = p[3]
+        p[0] = ast_builder.funcdef(name, body)
 
     def p_error(self, p):
         if p:

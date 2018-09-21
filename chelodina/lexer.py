@@ -3,13 +3,18 @@ import ply.lex as lex
 
 class Lexer:
 
-    tokens = ("COMMAND", "NUMBER")
+    tokens = ("TO", "END", "NAME", "NUMBER", "NAME")
+    reserved = {"to": "TO", "end": "END"}
 
     t_ignore = " \t"
-    t_COMMAND = r"[a-z]+"
 
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
+
+    def t_NAME(self, t):
+        r"[a-zA-Z]+"
+        t.type = self.reserved.get(t.value, "NAME")
+        return t
 
     def t_NUMBER(self, t):
         r"-?\d+(\.+\d+)?"
