@@ -22,7 +22,7 @@ def turtle_wrapper(current_ast):
     """
     Returns an AST wrapped with the needed imports and closing statements
     """
-    done = call("done", TURTLE_MODULE)
+    done = call_expr("done", TURTLE_MODULE)
     body = [_import(TURTLE_MODULE)] + current_ast + [done]
     return ast.Module(body=body)
 
@@ -55,12 +55,22 @@ def call(attribute, module_name="", parameters=[]):
 
     validator.validate_parameter_types(parameters)
     function_attr = function_expression()
-    return ast.Expr(value=ast.Call(func=function_attr, args=parameters, keywords=[]))
+    return ast.Call(func=function_attr, args=parameters, keywords=[])
 
 
-def ast_name(name):
+def call_expr(attribute, module_name="", parameters=[]):
+    return ast.Expr(value=call(attribute, module_name, parameters))
+
+
+def repeat(times, body):
+    index = ast_name("_", ast.Store())
+    range_call = call("range", "", [number(times)])
+    return ast.For(target=index, iter=range_call, body=body, orelse=[])
+
+
+def ast_name(name, ctx=ast.Load()):
     name = _sanitize_var(name)
-    return ast.Name(id=name, ctx=ast.Load())
+    return ast.Name(id=name, ctx=ctx)
 
 
 def number(value):

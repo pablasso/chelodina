@@ -34,7 +34,8 @@ class Parser:
 
     def p_statement(self, p):
         """statement : expression
-                     | funcdef"""
+                     | funcdef
+                     | repeat"""
         p[0] = p[1]
 
     def p_expression(self, p):
@@ -45,9 +46,9 @@ class Parser:
         self.calls.append(name)
         if len(p) == 3:
             parameters = p[2]
-            p[0] = ast_builder.call(name, module, parameters)
+            p[0] = ast_builder.call_expr(name, module, parameters)
         else:
-            p[0] = ast_builder.call(name, module)
+            p[0] = ast_builder.call_expr(name, module)
 
     def p_expression_params(self, p):
         """expression : NAME params"""
@@ -55,7 +56,7 @@ class Parser:
         module = self.module if validator.is_std_function(name) else ""
         parameters = p[2]
         self.calls.append(name)
-        p[0] = ast_builder.call(name, module, parameters)
+        p[0] = ast_builder.call_expr(name, module, parameters)
 
     def p_funcdef(self, p):
         """funcdef : TO NAME params statements END
@@ -69,6 +70,12 @@ class Parser:
         name = p[2]
         self.functions.add(name)
         p[0] = ast_builder.funcdef(name, parameters, body)
+
+    def p_repeat(self, p):
+        """repeat : REPEAT NUMBER LBRACKET expression RBRACKET"""
+        times = p[2]
+        body = [p[4]]
+        p[0] = ast_builder.repeat(times, body)
 
     def p_params(self, p):
         """params : params PARAM

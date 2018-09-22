@@ -46,3 +46,13 @@ def test_function_with_params():
     function_code_expected = "import turtle\n\n\ndef myfunction(p_left, p_forward):\n    turtle.forward(p_left)\n    turtle.left(p_forward)\n\n\nmyfunction(48.0, 98.0)\nturtle.done()\n"
     parsed = Compiler().get_ast(function_code)
     assert astor.to_source(parsed) == function_code_expected
+
+
+def test_repeat():
+    code = """
+    repeat 5 [ forward 50 ]"
+    left 100
+    """
+    code_expected = "import turtle\nfor _ in range(5.0):\n    turtle.forward(50.0)\nturtle.left(100.0)\nturtle.done()\n"
+    parsed = Compiler().get_ast(code)
+    assert astor.to_source(parsed) == code_expected

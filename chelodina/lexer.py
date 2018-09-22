@@ -3,11 +3,23 @@ import ply.lex as lex
 
 class Lexer:
 
-    tokens = ("TO", "END", "NAME", "NUMBER", "NAME", "PARAM")
-    reserved = {"to": "TO", "end": "END"}
+    tokens = (
+        "TO",
+        "END",
+        "NAME",
+        "NUMBER",
+        "NAME",
+        "PARAM",
+        "REPEAT",
+        "LBRACKET",
+        "RBRACKET",
+    )
+    reserved = {"to": "TO", "end": "END", "repeat": "REPEAT"}
 
     t_ignore = " \t"
     t_PARAM = r":[a-zA-Z]+"
+    t_LBRACKET = r"\["
+    t_RBRACKET = r"\]"
 
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
