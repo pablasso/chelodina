@@ -14,7 +14,6 @@ chelodina = {editable = true, path = "."}
 pytest = "*"
 ipython = "*"
 pytest-watch = "*"
-astor = "*"
 pre-commit = "*"
 black = "*"
 pudb = "*"

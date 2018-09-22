@@ -10,6 +10,6 @@ setup(
     author_email="me@pablasso.com",
     license="MIT",
     packages=["chelodina"],
-    install_requires=["ply"],
+    install_requires=["ply", "astor"],
     zip_safe=False,
 )
