@@ -35,7 +35,7 @@ pipenv run tests-watch
 - There's a library to pretty-print your AST in the `utils` package. Usage example:
 
 ```python
-from chelodina.compiler import Compiler
+from chelodina import compiler
 from chelodina.utils.debug import parseprint
 
 logo_code = """
@@ -45,7 +45,7 @@ left 91
 end
 """
 
-parsed_ast = Compiler().get_ast(logo_code)
+parsed_ast = compiler.get_ast(logo_code)
 parseprint(parsed)
 ```
 

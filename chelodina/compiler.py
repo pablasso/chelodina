@@ -3,17 +3,19 @@ import astor
 from chelodina.parser import Parser
 
 
-class Compiler:
-    def __init__(self):
-        self.parser = Parser()
+def get_parser():
+    return Parser()
 
-    def get_ast(self, code):
-        return self.parser.parse(code)
 
-    def get_source(self, code):
-        parsed_ast = self.get_ast(code)
-        return astor.to_source(parsed_ast)
+def get_ast(code):
+    return get_parser().parse(code)
 
-    def run(self, code):
-        parsed_ast = self.get_ast(code)
-        exec(compile(ast, filename="<ast>", mode="exec"))
+
+def get_source(code):
+    parsed_ast = get_ast(code)
+    return astor.to_source(parsed_ast)
+
+
+def run(code):
+    parsed_ast = get_ast(code)
+    exec(compile(ast, filename="<ast>", mode="exec"))
