@@ -2,6 +2,19 @@ import ast
 
 
 TURTLE_MODULE = "turtle"
+LOGO_PARAMETER_PREFIX = ":"
+PARAMETER_PREFIX_REPLACEMENT = "p_"
+
+
+def _sanitize_var(name):
+    """
+    Logo function parameters start with colon, this prefixes them instead
+    """
+    return name.replace(LOGO_PARAMETER_PREFIX, PARAMETER_PREFIX_REPLACEMENT)
+
+
+def _import(name):
+    return ast.Import(names=[ast.alias(name=name, asname=None)])
 
 
 def turtle_wrapper(current_ast):
@@ -13,15 +26,16 @@ def turtle_wrapper(current_ast):
     return ast.Module(body=body)
 
 
-def _import(name):
-    return ast.Import(names=[ast.alias(name=name, asname=None)])
-
-
-def funcdef(name, body):
+def funcdef(name, parameters, body):
     return ast.FunctionDef(
         name=name,
         args=ast.arguments(
-            args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[]
+            args=parameters,
+            vararg=None,
+            kwonlyargs=[],
+            kw_defaults=[],
+            kwarg=None,
+            defaults=[],
         ),
         body=body,
         decorator_list=[],
@@ -29,28 +43,41 @@ def funcdef(name, body):
     )
 
 
-def call(attribute, module_name="", *args):
+def call(attribute, module_name="", parameters=[]):
     def format_args():
         formatted_args = []
-        for arg in args:
-            if isinstance(arg, float):
-                formatted_args.append(number(arg))
+        # TODO: replace this with a validation as the formatting is now done in the parser
+        for parameter in parameters:
+            if isinstance(parameter, ast.Num):
+                formatted_args.append(parameter)
+            elif isinstance(parameter, ast.arg):
+                formatted_args.append(parameter)
             else:
-                raise Exception("Unsupported parameter type {0}".format(arg))
+                raise Exception("Unsupported parameter type {0}".format(parameter))
         return formatted_args
 
     def function_expression():
         if module_name:
-            module = ast.Name(id=module_name, ctx=ast.Load())
+            module = ast_name(module_name)
             function_attr = ast.Attribute(value=module, attr=attribute, ctx=ast.Load())
         else:
-            function_attr = ast.Name(id=attribute, ctx=ast.Load())
+            function_attr = ast_name(attribute)
         return function_attr
 
-    args = format_args()
+    parameters = format_args()
     function_attr = function_expression()
-    return ast.Expr(value=ast.Call(func=function_attr, args=args, keywords=[]))
+    return ast.Expr(value=ast.Call(func=function_attr, args=parameters, keywords=[]))
+
+
+def ast_name(name):
+    name = _sanitize_var(name)
+    return ast.Name(id=name, ctx=ast.Load())
 
 
 def number(value):
     return ast.Num(n=value)
+
+
+def arg(name):
+    name = _sanitize_var(name)
+    return ast.arg(arg=name, annotation=None)
