@@ -1,5 +1,6 @@
 import ast
 
+from chelodina.utils import validator
 
 TURTLE_MODULE = "turtle"
 LOGO_PARAMETER_PREFIX = ":"
@@ -44,18 +45,6 @@ def funcdef(name, parameters, body):
 
 
 def call(attribute, module_name="", parameters=[]):
-    def format_args():
-        formatted_args = []
-        # TODO: replace this with a validation as the formatting is now done in the parser
-        for parameter in parameters:
-            if isinstance(parameter, ast.Num):
-                formatted_args.append(parameter)
-            elif isinstance(parameter, ast.arg):
-                formatted_args.append(parameter)
-            else:
-                raise Exception("Unsupported parameter type {0}".format(parameter))
-        return formatted_args
-
     def function_expression():
         if module_name:
             module = ast_name(module_name)
@@ -64,7 +53,7 @@ def call(attribute, module_name="", parameters=[]):
             function_attr = ast_name(attribute)
         return function_attr
 
-    parameters = format_args()
+    validator.validate_parameter_types(parameters)
     function_attr = function_expression()
     return ast.Expr(value=ast.Call(func=function_attr, args=parameters, keywords=[]))
 
