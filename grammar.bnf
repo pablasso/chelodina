@@ -1,0 +1,21 @@
+program : statements
+
+statements : statements statement
+           | statement
+
+statement : expression
+          | funcdef
+          | repeat
+
+expression : NAME terms
+           | NAME
+
+terms : terms NUMBER
+      | terms PARAM
+      | NUMBER
+      | PARAM
+
+funcdef : TO NAME terms statements END
+        | TO NAME statements END
+
+repeat : REPEAT NUMBER LBRACKET expression RBRACKET
