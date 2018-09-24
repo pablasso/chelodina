@@ -15,7 +15,7 @@ pytest = "*"
 ipython = "*"
 pytest-watch = "*"
 pre-commit = "*"
-black = "*"
+black = {version="*", markers="python_version >= '3.6'"}
 pudb = "*"
 
 [requires]
