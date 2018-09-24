@@ -13,6 +13,10 @@ class Lexer:
         "REPEAT",
         "LBRACKET",
         "RBRACKET",
+        "PLUS",
+        "MINUS",
+        "MULT",
+        "DIV",
     )
     reserved = {"to": "TO", "end": "END", "repeat": "REPEAT"}
 
@@ -20,6 +24,10 @@ class Lexer:
     t_PARAM = r":[a-zA-Z]+"
     t_LBRACKET = r"\["
     t_RBRACKET = r"\]"
+    t_PLUS = r"\+"
+    t_MINUS = r"-"
+    t_MULT = r"\*"
+    t_DIV = r"/"
 
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)

@@ -21,7 +21,7 @@ STD_FUNCTIONS = {
     "clearscreen",
 }
 
-PARAMETER_TYPES_ALLOWED = {ast.Num, ast.arg}
+PARAMETER_TYPES_ALLOWED = {ast.Num, ast.Name, ast.BinOp}
 
 
 def validate_statements(statements, extras=set()):

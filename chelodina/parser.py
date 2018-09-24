@@ -8,6 +8,7 @@ from chelodina.utils import validator
 class Parser:
     tokens = Lexer.tokens
     module = "turtle"
+    precedence = (("left", "PLUS", "MINUS"), ("left", "MULT", "DIV"))
 
     def __init__(self):
         self.functions = set()
@@ -65,12 +66,23 @@ class Parser:
         """terms : terms PARAM
                  | PARAM"""
         if len(p) == 2:
-            arg = ast_builder.arg(p[1])
+            arg = ast_builder.ast_name(p[1])
             p[0] = [arg]
         else:
             args = p[1]
-            arg = ast_builder.arg(p[2])
+            arg = ast_builder.ast_name(p[2])
             p[0] = args + [arg]
+
+    def p_terms_binary_operations(self, p):
+        """terms : terms PLUS terms
+                 | terms MINUS terms
+                 | terms MULT terms
+                 | terms DIV terms"""
+        operator = ast_builder.operator(p[2])
+        # TODO: how can we do this with plain objects? (outside the array)
+        operand_a = p[1][0]
+        operand_b = p[3][0]
+        p[0] = [ast_builder.binary_operation(operator, operand_a, operand_b)]
 
     def p_funcdef(self, p):
         """funcdef : TO NAME terms statements END

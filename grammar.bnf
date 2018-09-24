@@ -10,7 +10,11 @@ statement : expression
 expression : NAME terms
            | NAME
 
-terms : terms NUMBER
+terms : terms PLUS terms
+      | terms MINUS terms
+      | terms MULT terms
+      | terms DIV terms
+      | terms NUMBER
       | terms PARAM
       | NUMBER
       | PARAM

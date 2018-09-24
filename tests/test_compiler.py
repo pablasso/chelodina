@@ -56,3 +56,19 @@ def test_repeat():
     code_expected = "import turtle\nfor _ in range(5.0):\n    turtle.forward(50.0)\nturtle.left(100.0)\nturtle.done()\n"
     parsed = compiler.get_ast(code)
     assert astor.to_source(parsed) == code_expected
+
+
+def test_binary_operations():
+    code = """
+    to myfunction :parama :paramb
+        forward :parama + 50.0
+        left :parama - :paramb
+        forward :paramb * 50.0
+        left 50.0 / 25.0 * 2 - 1
+    end
+
+    myfunction 50.0 + 10.0 30.0
+    """
+    code_expected = "import turtle\n\n\ndef myfunction(p_parama, p_paramb):\n    turtle.forward(p_parama + 50.0)\n    turtle.left(p_parama - p_paramb)\n    turtle.forward(p_paramb * 50.0)\n    turtle.left(50.0 / 25.0 * 2.0 - 1.0)\n\n\nmyfunction(50.0 + 10.0, 30.0)\nturtle.done()\n"
+    parsed = compiler.get_ast(code)
+    assert astor.to_source(parsed) == code_expected

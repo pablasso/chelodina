@@ -80,3 +80,20 @@ def number(value):
 def arg(name):
     name = _sanitize_var(name)
     return ast.arg(arg=name, annotation=None)
+
+
+def operator(value):
+    if value == "+":
+        return ast.Add()
+    elif value == "-":
+        return ast.Sub()
+    elif value == "*":
+        return ast.Mult()
+    elif value == "/":
+        return ast.Div()
+
+    raise Exception("operator not supported: {0}".format(value))
+
+
+def binary_operation(operator, operand_a, operand_b):
+    return ast.BinOp(op=operator, left=operand_a, right=operand_b)
