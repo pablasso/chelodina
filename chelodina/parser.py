@@ -98,9 +98,9 @@ class Parser:
         p[0] = ast_builder.funcdef(name, parameters, body)
 
     def p_repeat(self, p):
-        """repeat : REPEAT NUMBER LBRACKET expression RBRACKET"""
+        """repeat : REPEAT NUMBER LBRACKET statements RBRACKET"""
         times = p[2]
-        body = [p[4]]
+        body = p[4]
         p[0] = ast_builder.repeat(times, body)
 
     def p_error(self, p):
