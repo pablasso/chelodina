@@ -79,7 +79,7 @@ class Parser:
                  | terms MULT terms
                  | terms DIV terms"""
         operator = ast_builder.operator(p[2])
-        # TODO: how can we do this with plain objects? (outside the array)
+        # TODO: how can we do this with plain objects outside the array?
         operand_a = p[1][0]
         operand_b = p[3][0]
         p[0] = [ast_builder.binary_operation(operator, operand_a, operand_b)]
@@ -98,8 +98,9 @@ class Parser:
         p[0] = ast_builder.funcdef(name, parameters, body)
 
     def p_repeat(self, p):
-        """repeat : REPEAT NUMBER LBRACKET statements RBRACKET"""
-        times = p[2]
+        """repeat : REPEAT terms LBRACKET statements RBRACKET"""
+        # TODO: how can we do this with plain objects outside the array?
+        times = p[2][0]
         body = p[4]
         p[0] = ast_builder.repeat(times, body)
 

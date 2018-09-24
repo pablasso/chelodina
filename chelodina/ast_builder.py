@@ -64,7 +64,7 @@ def call_expr(attribute, module_name="", parameters=[]):
 
 def repeat(times, body):
     index = ast_name("_", ast.Store())
-    range_call = call("range", "", [number(times)])
+    range_call = call("range", "", [times])
     return ast.For(target=index, iter=range_call, body=body, orelse=[])
 
 
