@@ -50,16 +50,16 @@ def test_function_with_params():
 
 def test_repeat():
     code = """
-    repeat 5 [ forward 50 right 30 ]
+    repeat 5.0 [ forward 50 right 30 ]
     left 100
 
     to myfunction :param
         repeat :param [ left 10 ]
     end
 
-    myfunction 5
+    myfunction 5.0
     """
-    code_expected = "import turtle\nfor _ in range(5.0):\n    turtle.forward(50.0)\n    turtle.right(30.0)\nturtle.left(100.0)\n\n\ndef myfunction(p_param):\n    for _ in range(p_param):\n        turtle.left(10.0)\n\n\nmyfunction(5.0)\nturtle.done()\n"
+    code_expected = "import turtle\nfor _ in range(5):\n    turtle.forward(50.0)\n    turtle.right(30.0)\nturtle.left(100.0)\n\n\ndef myfunction(p_param):\n    for _ in range(p_param):\n        turtle.left(10.0)\n\n\nmyfunction(5.0)\nturtle.done()\n"
     parsed = compiler.get_ast(code)
     assert astor.to_source(parsed) == code_expected
 
