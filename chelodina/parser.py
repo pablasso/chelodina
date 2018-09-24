@@ -39,8 +39,8 @@ class Parser:
         p[0] = p[1]
 
     def p_expression(self, p):
-        """expression : NAME numbers
-                      | NAME"""
+        """expression : NAME terms
+                      | NAME """
         name = p[1]
         module = self.module if validator.is_std_function(name) else ""
         self.calls.append(name)
@@ -50,16 +50,30 @@ class Parser:
         else:
             p[0] = ast_builder.call_expr(name, module)
 
-    def p_expression_params(self, p):
-        """expression : NAME params"""
-        name = p[1]
-        module = self.module if validator.is_std_function(name) else ""
-        parameters = p[2]
-        self.calls.append(name)
-        p[0] = ast_builder.call_expr(name, module, parameters)
+    def p_terms_number(self, p):
+        """terms : terms NUMBER
+                 | NUMBER"""
+        if len(p) == 2:
+            number = ast_builder.number(p[1])
+            p[0] = [number]
+        else:
+            numbers = p[1]
+            number = ast_builder.number(p[2])
+            p[0] = numbers + [number]
+
+    def p_terms_params(self, p):
+        """terms : terms PARAM
+                 | PARAM"""
+        if len(p) == 2:
+            arg = ast_builder.arg(p[1])
+            p[0] = [arg]
+        else:
+            args = p[1]
+            arg = ast_builder.arg(p[2])
+            p[0] = args + [arg]
 
     def p_funcdef(self, p):
-        """funcdef : TO NAME params statements END
+        """funcdef : TO NAME terms statements END
                    | TO NAME statements END"""
         if len(p) == 5:  # without params
             parameters = []
@@ -76,28 +90,6 @@ class Parser:
         times = p[2]
         body = [p[4]]
         p[0] = ast_builder.repeat(times, body)
-
-    def p_params(self, p):
-        """params : params PARAM
-                  | PARAM"""
-        if len(p) == 2:
-            arg = ast_builder.arg(p[1])
-            p[0] = [arg]
-        else:
-            args = p[1]
-            arg = ast_builder.arg(p[2])
-            p[0] = args + [arg]
-
-    def p_numbers(self, p):
-        """numbers : numbers NUMBER
-                   | NUMBER"""
-        if len(p) == 2:
-            number = ast_builder.number(p[1])
-            p[0] = [number]
-        else:
-            numbers = p[1]
-            number = ast_builder.number(p[2])
-            p[0] = numbers + [number]
 
     def p_error(self, p):
         if p:
