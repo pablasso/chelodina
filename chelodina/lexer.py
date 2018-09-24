@@ -34,6 +34,7 @@ class Lexer:
 
     def t_NAME(self, t):
         r"[a-zA-Z]+"
+        t.value = t.value.lower()
         t.type = self.reserved.get(t.value, "NAME")
         return t
 
