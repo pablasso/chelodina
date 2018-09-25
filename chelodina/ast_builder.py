@@ -14,6 +14,14 @@ def _sanitize_var(name):
     return name.replace(LOGO_PARAMETER_PREFIX, PARAMETER_PREFIX_REPLACEMENT)
 
 
+# TODO: the parser should be improved to separate [params,numbers] into
+# [params_function,params_body,numbers] to avoid doing this
+def _sanitize_funcdef_parameters(parameters):
+    return [
+        arg(parameter.id) for parameter in parameters if isinstance(parameter, ast.Name)
+    ]
+
+
 def _import(name):
     return ast.Import(names=[ast.alias(name=name, asname=None)])
 
@@ -32,6 +40,7 @@ def fill_locations(current_ast):
 
 
 def funcdef(name, parameters, body):
+    parameters = _sanitize_funcdef_parameters(parameters)
     return ast.FunctionDef(
         name=name,
         args=ast.arguments(
@@ -97,3 +106,8 @@ def operator(value):
 
 def binary_operation(operator, operand_a, operand_b):
     return ast.BinOp(op=operator, left=operand_a, right=operand_b)
+
+
+def arg(name):
+    name = _sanitize_var(name)
+    return ast.arg(arg=name, annotation=None)
