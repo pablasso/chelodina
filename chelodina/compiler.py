@@ -18,4 +18,6 @@ def get_source(code):
 
 def run(code):
     parsed_ast = get_ast(code)
-    exec(compile(ast, filename="<ast>", mode="exec"))
+    compiled = compile(parsed_ast, filename="<ast>", mode="exec")
+    namespace = {}
+    exec(compiled, namespace)
