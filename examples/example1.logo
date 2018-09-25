@@ -1,0 +1,16 @@
+TO triangle :length
+  REPEAT 3 [ FORWARD :length RIGHT 120 ]
+END
+
+TO flower :length :count
+  REPEAT 150 [
+    triangle :length
+    RIGHT 360 / :count
+  ]
+END
+
+TO web
+  REPEAT 6 [ flower 150 18 ]
+END
+
+web

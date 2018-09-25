@@ -1,0 +1,7 @@
+TO star
+  REPEAT 5 [ FORWARD 100 RIGHT 144 ]
+END
+
+CLEARSCREEN
+
+star

@@ -1,0 +1,7 @@
+TO square :length
+  REPEAT 4 [ FORWARD :length RIGHT 90 ]
+END
+
+CLEARSCREEN
+
+REPEAT 36 [ square 200 RIGHT 10 ]
