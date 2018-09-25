@@ -1,6 +1,6 @@
 # Chelodina
 
-[![LICENSE](https://raw.githubusercontent.com/pablasso/chelodina/master/license.png)](https://github.com/pablasso/chelodina/blob/master/LICENSE) [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![PyPI](https://raw.githubusercontent.com/pablasso/chelodina/master/pypi.svg?sanitize=true)](https://pypi.org/project/chelodina/) [![LICENSE](https://raw.githubusercontent.com/pablasso/chelodina/master/license.png)](https://github.com/pablasso/chelodina/blob/master/LICENSE) [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Chelodina is a transpiler that converts LOGO:
 
