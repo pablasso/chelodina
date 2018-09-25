@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="chelodina",
-    version="0.5",
+    version="0.5.0",
     description="A Logo to Python transpiler",
     url="http://github.com/pablasso/chelodina",
     author="Juan Pablo Ortiz",
