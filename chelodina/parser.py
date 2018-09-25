@@ -17,9 +17,11 @@ class Parser:
     def parse(self, code):
         Lexer().build()
         parser = yacc.yacc(module=self, write_tables=False)
-        parsed = parser.parse(code)
+        parsed_ast = parser.parse(code)
         validator.validate_statements(self.calls, self.functions)
-        return ast_builder.turtle_wrapper(parsed)
+        parsed_ast = ast_builder.turtle_wrapper(parsed_ast)
+        parsed_ast = ast_builder.fill_locations(parsed_ast)
+        return parsed_ast
 
     def p_program(self, p):
         """program : statements"""

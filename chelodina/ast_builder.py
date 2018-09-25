@@ -27,6 +27,10 @@ def turtle_wrapper(current_ast):
     return ast.Module(body=body)
 
 
+def fill_locations(current_ast):
+    return ast.fix_missing_locations(current_ast)
+
+
 def funcdef(name, parameters, body):
     return ast.FunctionDef(
         name=name,
