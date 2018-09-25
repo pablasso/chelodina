@@ -1,3 +1,4 @@
+import turtle
 import astor
 
 from chelodina.parser import Parser
@@ -20,4 +21,7 @@ def run(code):
     parsed_ast = get_ast(code)
     compiled = compile(parsed_ast, filename="<ast>", mode="exec")
     namespace = {}
-    exec(compiled, namespace)
+    try:
+        exec(compiled, namespace)
+    except (KeyboardInterrupt, turtle.Terminator):
+        print("\nChelodina finished. Goodbye.")
