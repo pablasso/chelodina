@@ -78,11 +78,6 @@ def number(value):
     return ast.Num(n=value)
 
 
-def arg(name):
-    name = _sanitize_var(name)
-    return ast.arg(arg=name, annotation=None)
-
-
 def operator(value):
     if value == "+":
         return ast.Add()
